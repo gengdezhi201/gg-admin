@@ -21,12 +21,8 @@ public class DemoController {
 
     @GetMapping("/demo")
     public List<Admin> demo(){
-String[] a= {""};
         QueryWrapper<Admin> wrapper = new QueryWrapper();
-
         List<Admin> list = adminService.list();
-        Admin admin = new Admin();
-
         return list;
     }
 
