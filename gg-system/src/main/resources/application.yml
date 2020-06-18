@@ -1,0 +1,16 @@
+server:
+  servlet:
+    context-path: /gg-admin
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+  jackson:
+    time-zone: GMT+8
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.gg.**.domain
+  configuration:
+    map-underscore-to-camel-case: true
