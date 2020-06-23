@@ -1,9 +1,8 @@
-package com.gg.system.rest;
+package com.gg.model.system.rest;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.gg.system.domain.Admin;
-import com.gg.system.mapper.AdminMapper;
-import com.gg.system.service.AdminService;
+import com.gg.model.system.domain.SysUser;
+import com.gg.model.system.mapper.SysUserMapper;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +10,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
-public class DemoController {
+public class SysUserController {
 
     @Autowired
-    AdminService adminService;
+    private SysUserMapper sysUserMapper;
 
     @GetMapping("/demo")
-    public List<Admin> demo(){
-        QueryWrapper<Admin> wrapper = new QueryWrapper();
-        List<Admin> list = adminService.list();
-        return list;
+    public SysUser demo(){
+        SysUser sysUser = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("user_name","admin"));
+        if (sysUser != null) {
+            System.out.println(sysUser.toString());
+            System.out.println(sysUser.getCreateTime());
+        }
+        return sysUser;
     }
 
     @ApiOperation(value = "获取新的订单信息")
@@ -33,4 +33,5 @@ public class DemoController {
                            @ApiParam(value = "每页显示数量") @RequestParam(value = "pageSize",required = false) Integer pageSize){
         return "请求测试成功";
     }
+
 }
