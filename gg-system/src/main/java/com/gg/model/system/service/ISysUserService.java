@@ -1,6 +1,7 @@
 package com.gg.model.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.gg.model.security.domain.SysUserDetails;
 import com.gg.model.system.domain.SysUser;
 
 /**
@@ -12,5 +13,5 @@ import com.gg.model.system.domain.SysUser;
  * @since 2020-06-19
  */
 public interface ISysUserService extends IService<SysUser> {
-
+    SysUserDetails login(String username, String password);
 }

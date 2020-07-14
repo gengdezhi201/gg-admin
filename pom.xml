@@ -89,6 +89,13 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
+        <!--jwt依赖-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+
         <!-- Mysql依赖包 -->
         <dependency>
             <groupId>mysql</groupId>

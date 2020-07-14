@@ -1,7 +1,7 @@
 server:
   servlet:
-    context-path: /gg-admin
-  port: 8080
+    context-path: /
+  port: 8098
 
 spring:
   profiles:
@@ -14,3 +14,5 @@ mybatis-plus:
   type-aliases-package: com.gg.model.*.domain
   configuration:
     map-underscore-to-camel-case: true
+  global-config:
+    banner: false

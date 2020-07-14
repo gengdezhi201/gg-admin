@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -25,6 +26,7 @@ public class SysUser extends BaseEntity implements Serializable {
     /**
      * 用户ID
      */
+    @Id
     private Integer userId;
 
     /**

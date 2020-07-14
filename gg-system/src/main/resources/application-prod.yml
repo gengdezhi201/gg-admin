@@ -43,6 +43,13 @@ spring:
         wall:
           config:
             multi-statement-allow: true
-
+  redis:
+    #数据库索引
+    database: 0
+    host: 10.64.43.243
+    port: 6379
+    password: Aa~123!@#
+    #连接超时时间
+    timeout: 5000
 swagger:
   enabled: true
