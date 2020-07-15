@@ -1,5 +1,6 @@
 package com.gg.model.security.config;
 
+import com.gg.model.security.filter.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * @author gengdz
@@ -26,6 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     UserDetailsService userDetailsService;
+
+    @Autowired
+    JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder()
@@ -58,9 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
 
                 // 不创建会话
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
                 .authorizeRequests()
@@ -89,6 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 所有请求都需要认证
                 .anyRequest().authenticated();
+        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     public static void main(String[] args) {

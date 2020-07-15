@@ -1,6 +1,7 @@
 package com.gg.model.system.rest;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.gg.model.security.domain.JwtProperties;
 import com.gg.model.security.domain.SysUserDetails;
 import com.gg.model.security.util.SysUserUtil;
 import com.gg.model.system.domain.SysUser;
@@ -31,12 +32,12 @@ public class SysUserController {
     @Autowired
     private ISysUserService sysUserService;
 
-
+    @Autowired
+    JwtProperties jwtProperties;
 
     @GetMapping("/login")
     public SysUserDetails login(String username, String password){
 //        SysUser sysUser = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("user_name","admin"));
-
         return sysUserService.login(username,password);
     }
 

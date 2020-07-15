@@ -3,9 +3,10 @@ package com.gg.model.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gg.model.security.domain.SysUserDetails;
+import com.gg.model.security.util.JwtUtil;
+import com.gg.model.security.util.SysUserUtil;
 import com.gg.model.system.domain.SysUser;
 import com.gg.model.system.mapper.SysUserMapper;
-import com.gg.model.system.rest.SysUserController;
 import com.gg.model.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,6 +29,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     public SysUserDetails login(String username, String password) {
         Authentication authentication = null;
         try {
@@ -38,7 +42,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         SysUserDetails sysUser = (SysUserDetails)authentication.getPrincipal();
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println("-*-*-*-*-*-" + SysUserController.getLoginUser());
+        System.out.println("-*-*-*-*-*-" + SysUserUtil.getLoginUser());
+        System.out.println(jwtUtil.createToken(authentication));
         return sysUser;
     }
 }

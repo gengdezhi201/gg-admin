@@ -11,10 +11,25 @@ import java.util.Collection;
 @Setter
 public class SysUserDetails extends User {
 
+    /**
+     * 用户ID
+     */
     private Integer userId;
 
-    public SysUserDetails(Integer userId,String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+    /**
+     * 昵称
+     */
+    private String nickName;
+
+    public SysUserDetails(Integer userId,String nickName,String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.userId = userId;
+        this.nickName = nickName;
+    }
+
+    public SysUserDetails(Integer userId,String nickName,String username, String password, Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, authorities);
+        this.userId = userId;
+        this.nickName = nickName;
     }
 }

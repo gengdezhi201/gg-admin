@@ -28,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Set<String> set = new HashSet<>();
         set.add("ROLE_ADMIN");
         authorities=AuthorityUtils.createAuthorityList(set.toArray(new String[0]));
-        return new SysUserDetails(sysUser.getUserId(), sysUser.getUserName(), sysUser.getPassword(), true, true, true, true,
+        return new SysUserDetails(sysUser.getUserId(),sysUser.getNickName(), sysUser.getUserName(), sysUser.getPassword(), true, true, true, true,
                 authorities);
     }
 }
