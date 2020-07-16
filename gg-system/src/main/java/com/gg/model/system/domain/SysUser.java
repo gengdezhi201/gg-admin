@@ -1,5 +1,7 @@
 package com.gg.model.system.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gg.domain.BaseEntity;
 import lombok.Data;
@@ -26,7 +28,7 @@ public class SysUser extends BaseEntity implements Serializable {
     /**
      * 用户ID
      */
-    @Id
+    @TableId(value = "id",type = IdType.AUTO)
     private Integer userId;
 
     /**
