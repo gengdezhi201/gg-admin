@@ -1,10 +1,10 @@
 package com.gg.model.system.service.impl;
 
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gg.model.security.domain.SysUserDetails;
 import com.gg.model.security.util.JwtUtil;
-import com.gg.model.security.util.SysUserUtil;
 import com.gg.model.system.domain.SysUser;
 import com.gg.model.system.mapper.SysUserMapper;
 import com.gg.model.system.service.ISysUserService;
@@ -16,16 +16,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
- * <p>
  *  服务实现类
- * </p>
- *
- * @author jobob
- * @since 2020-06-19
+ * @author gengdz
+ * 2020年7月17日13:42:56
  */
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
@@ -47,13 +42,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         } catch (Exception var5) {
             var5.printStackTrace();
         }
-        SysUserDetails sysUser = (SysUserDetails)authentication.getPrincipal();
+        SysUserDetails sysUserDetails = (SysUserDetails)authentication.getPrincipal();
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println("-*-*-*-*-*-" + SysUserUtil.getLoginUser());
-        System.out.println(jwtUtil.createToken(authentication));
-        Map map = new HashMap<>();
-        map.put("1",jwtUtil.createToken(authentication));
-        redisUtil.hmset("token",map,6000);
-        return sysUser;
+        String token = jwtUtil.createToken(authentication);
+        jwtUtil.setLoginUser(token,sysUserDetails);
+        return sysUserDetails;
     }
 }

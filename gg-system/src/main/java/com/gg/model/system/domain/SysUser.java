@@ -28,7 +28,7 @@ public class SysUser extends BaseEntity implements Serializable {
     /**
      * 用户ID
      */
-    @TableId(value = "id",type = IdType.AUTO)
+    @TableId(value = "user_id",type = IdType.AUTO)
     private Integer userId;
 
     /**

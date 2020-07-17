@@ -1,6 +1,7 @@
 package com.gg.model.security.filter;
 
 import com.gg.model.security.util.JwtUtil;
+import com.gg.util.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,7 +34,10 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter{
         if (StringUtils.isNotBlank(token) )
         {
             //解析token将返回的Authentication 储存在SecurityContextHolder上下文中
-            SecurityContextHolder.getContext().setAuthentication(jwtUtil.getAuthentication(token));
+            ;
+            if(jwtUtil.getLoginUser(token) != null){
+                SecurityContextHolder.getContext().setAuthentication(jwtUtil.getAuthentication(token));
+            }
         }
         chain.doFilter(request, response);
     }

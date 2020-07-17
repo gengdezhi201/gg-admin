@@ -3,6 +3,7 @@ package com.gg.model.security.util;
 import cn.hutool.core.util.IdUtil;
 import com.gg.model.security.domain.JwtProperties;
 import com.gg.model.security.domain.SysUserDetails;
+import com.gg.util.RedisUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -28,30 +29,59 @@ public class JwtUtil implements InitializingBean {
     @Autowired
     JwtProperties jwtProperties;
 
+    @Autowired
+    RedisUtil redisUtil;
+
     private Key key;
 
     private static final String AUTHORITIES_KEY = "auth";
 
     @Override
-    public void afterPropertiesSet(){
+    public void afterPropertiesSet() {
         byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getBase64Secret());
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
     /**
+     * 获取登录用户
+     *
+     * @param token
+     * @return SysUserDetails
+     */
+    public SysUserDetails getLoginUser(String token) {
+        Object obj = redisUtil.get(jwtProperties.getOnlineKey()+":"+token);
+        if (obj != null) {
+            return (SysUserDetails) obj;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * 储存用户信息
+     *
+     * @param token
+     * @return SysUserDetails
+     */
+    public boolean setLoginUser(String token,SysUserDetails sysUserDetails) {
+        return redisUtil.set(jwtProperties.getOnlineKey()+":"+token,sysUserDetails,jwtProperties.getTokenValidityInSeconds());
+    }
+
+    /**
      * 生成token
+     *
      * @param authentication
      * @return token
      */
-    public String createToken(Authentication authentication){
+    public String createToken(Authentication authentication) {
         Map<String, Object> claims = new HashMap<>();
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
         SysUserDetails sysUserDetails = (SysUserDetails) authentication.getPrincipal();
-        claims.put("userId",sysUserDetails.getUserId());
-        claims.put("nickName",sysUserDetails.getNickName());
-        claims.put("userName",sysUserDetails.getUsername());
+        claims.put("userId", sysUserDetails.getUserId());
+        claims.put("nickName", sysUserDetails.getNickName());
+        claims.put("userName", sysUserDetails.getUsername());
 
         /**
          *iss:              |   签发者      |   setIssuer()
@@ -67,7 +97,7 @@ public class JwtUtil implements InitializingBean {
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .setClaims(claims)
-                .signWith(key,SignatureAlgorithm.HS512)
+                .signWith(key, SignatureAlgorithm.HS512)
                 // 加入ID确保生成的 Token 都不一致
                 .setId(IdUtil.simpleUUID())
                 .compact();
@@ -80,13 +110,11 @@ public class JwtUtil implements InitializingBean {
      * @param request
      * @return token
      */
-    public String getToken(HttpServletRequest request)
-    {
+    public String getToken(HttpServletRequest request) {
         //与前台约定好的header名
         String token = request.getHeader(jwtProperties.getHeader());
         //验证token是不是空以及token是不是以约定好的Bearer开头
-        if (StringUtils.isNotEmpty(token) && token.startsWith(jwtProperties.getTokenStartWith()))
-        {
+        if (StringUtils.isNotEmpty(token) && token.startsWith(jwtProperties.getTokenStartWith())) {
             //移除"Bearer "只留下token
             token = token.replace(jwtProperties.getTokenStartWith(), "");
         }
@@ -95,6 +123,7 @@ public class JwtUtil implements InitializingBean {
 
     /**
      * 解析token
+     *
      * @param token
      * @return Authentication
      */
@@ -114,9 +143,9 @@ public class JwtUtil implements InitializingBean {
         List<GrantedAuthority> authorities;
         Set<String> set = new HashSet<>();
         set.add("ROLE_ADMIN");
-        authorities= AuthorityUtils.createAuthorityList(set.toArray(new String[0]));
+        authorities = AuthorityUtils.createAuthorityList(set.toArray(new String[0]));
         //TODO 还没设计角色权限等信息 暂时写死角色
-        SysUserDetails principal = new SysUserDetails(Integer.parseInt(claims.get("userId").toString()), claims.get("nickName").toString(), claims.get("userName").toString(),"", authorities);
+        SysUserDetails principal = new SysUserDetails(Integer.parseInt(claims.get("userId").toString()), claims.get("nickName").toString(), claims.get("userName").toString(), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
