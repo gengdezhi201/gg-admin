@@ -43,39 +43,29 @@ public class ResultEntity implements Serializable {
         this.data = data;
     }
 
-    public void success(String msg, Object data) {
-        this.code = CODE_SUCCESS;
-        this.msg = msg;
-        this.data = data;
+
+    public static ResultEntity success(String msg, Object data) {
+        return new ResultEntity(CODE_SUCCESS,msg,data);
     }
 
-    public void success(String msg) {
-        this.code = CODE_SUCCESS;
-        this.msg = msg;
-        this.data = null;
+    public static ResultEntity success(String msg) {
+        return new ResultEntity(CODE_SUCCESS,msg,null);
     }
 
-    public void success(Object data) {
-        this.code = CODE_SUCCESS;
-        this.msg = MSG_SUCCESS;
-        this.data = data;
+    public static ResultEntity success(Object data) {
+        return new ResultEntity(CODE_SUCCESS,MSG_SUCCESS,data);
     }
 
-    public void fail(String msg, Object data) {
-        this.code = CODE_FAIL;
-        this.msg = msg;
-        this.data = data;
+    public static ResultEntity fail(String msg, Object data) {
+        return new ResultEntity(CODE_FAIL,msg,data);
     }
 
-    public void fail(String msg) {
-        this.code = CODE_FAIL;
-        this.msg = msg;
-        this.data = null;
+    public static ResultEntity fail(String msg) {
+        return new ResultEntity(CODE_FAIL,msg,null);
     }
 
-    public void fail(Object data) {
-        this.code = CODE_FAIL;
-        this.msg = MSG_FAIL;
-        this.data = data;
+    public static ResultEntity fail(Object data) {
+        return new ResultEntity(CODE_FAIL,MSG_FAIL,data);
     }
+
 }

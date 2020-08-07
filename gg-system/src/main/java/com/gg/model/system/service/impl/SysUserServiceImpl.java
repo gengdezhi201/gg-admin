@@ -1,16 +1,18 @@
 package com.gg.model.system.service.impl;
 
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.gg.domain.ResultEntity;
 import com.gg.model.security.domain.SysUserDetails;
 import com.gg.model.security.util.JwtUtil;
+import com.gg.model.system.domain.SysLogin;
 import com.gg.model.system.domain.SysUser;
 import com.gg.model.system.mapper.SysUserMapper;
 import com.gg.model.system.service.ISysUserService;
 import com.gg.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,18 +36,22 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Autowired
     private JwtUtil jwtUtil;
 
-    public SysUserDetails login(String username, String password) {
+    public ResultEntity login(SysLogin sysLogin) {
         Authentication authentication = null;
         try {
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(sysLogin.getUsername(),sysLogin.getPassword());
             authentication = this.authenticationManager.authenticate(authenticationToken);
-        } catch (Exception var5) {
-            var5.printStackTrace();
+        } catch (Exception e) {
+            if (e instanceof BadCredentialsException){
+                return ResultEntity.fail(e.getMessage());
+            }else{
+                e.printStackTrace();
+            }
         }
         SysUserDetails sysUserDetails = (SysUserDetails)authentication.getPrincipal();
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtUtil.createToken(authentication);
         jwtUtil.setLoginUser(token,sysUserDetails);
-        return sysUserDetails;
+        return ResultEntity.success("登录成功",token);
     }
 }
