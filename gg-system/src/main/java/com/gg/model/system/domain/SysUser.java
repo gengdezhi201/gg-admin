@@ -10,8 +10,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -39,21 +37,21 @@ public class SysUser extends BaseEntity implements Serializable {
     /**
      * 用户名
      */
-    @NotBlank(message = "用户名不能为空")
-    @Size(min = 0, max = 50, message = "用户名不能超过50个字符")
+//    @NotBlank(message = "用户名不能为空")
+//    @Size(min = 0, max = 50, message = "用户名不能超过50个字符")
     private String userName;
 
     /**
      * 昵称
      */
-    @NotBlank(message = "昵称不能为空")
-    @Size(min = 0, max = 50, message = "昵称不能超过50个字符")
+//    @NotBlank(message = "昵称不能为空")
+//    @Size(min = 0, max = 50, message = "昵称不能超过50个字符")
     private String nickName;
 
     /**
      * 密码
      */
-    @NotBlank(message = "密码不能为空")
+//    @NotBlank(message = "密码不能为空")
     private String password;
 
     /**
@@ -80,7 +78,7 @@ public class SysUser extends BaseEntity implements Serializable {
     /**
      * 手机
      */
-    @NotBlank(message = "手机号不能为空")
+//    @NotBlank(message = "手机号不能为空")
     private String phone;
 
     /**

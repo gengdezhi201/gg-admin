@@ -1,5 +1,6 @@
 package com.gg;
 
+import com.alibaba.fastjson.parser.ParserConfig;
 import com.gg.model.security.util.JwtUtil;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

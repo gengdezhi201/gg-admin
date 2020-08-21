@@ -18,7 +18,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class SysUsersRoles extends BaseEntity implements Serializable {
+public class SysUsersRoles implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -1,6 +1,10 @@
 package com.gg.model.system.rest;
 
 
+import com.gg.domain.ResultEntity;
+import com.gg.model.system.service.ISysMenuService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -16,5 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/system/sys-menu")
 public class SysMenuController{
+
+    @Autowired
+    ISysMenuService sysMenuService;
+
+    @GetMapping
+    public ResultEntity getSysMenuAll(){
+        return ResultEntity.success(sysMenuService.list());
+    }
 
 }

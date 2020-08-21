@@ -52,25 +52,4 @@ public class SysRole extends BaseEntity implements Serializable {
      */
     private String dataScope;
 
-    /**
-     * 创建者
-     */
-    private String createBy;
-
-    /**
-     * 更新者
-     */
-    private String updateBy;
-
-    /**
-     * 创建日期
-     */
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-
 }

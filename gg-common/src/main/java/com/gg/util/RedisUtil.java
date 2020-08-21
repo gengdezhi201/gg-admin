@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public final class RedisUtil {    
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate<Object, Object> redisTemplate;
     // =============================common============================
     /**
      * 指定缓存失效时间

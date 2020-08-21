@@ -1,16 +1,15 @@
 package com.gg.model.system.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gg.domain.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * <p>
@@ -22,7 +21,13 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
+@NoArgsConstructor
 public class SysMenu extends BaseEntity implements Serializable {
+
+    public SysMenu(Integer type) {
+        this.type=type;
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -93,24 +98,10 @@ public class SysMenu extends BaseEntity implements Serializable {
     private String permission;
 
     /**
-     * 创建者
+     * 测试
      */
-    private String createBy;
-
-    /**
-     * 更新者
-     */
-    private String updateBy;
-
-    /**
-     * 创建日期
-     */
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
+    @TableField(exist = false)
+    @JsonIgnore
+    private String cs;
 
 }

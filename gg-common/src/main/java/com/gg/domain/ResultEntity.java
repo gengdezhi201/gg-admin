@@ -43,6 +43,9 @@ public class ResultEntity implements Serializable {
         this.data = data;
     }
 
+    public static ResultEntity success() {
+        return new ResultEntity(CODE_SUCCESS,MSG_SUCCESS,null);
+    }
 
     public static ResultEntity success(String msg, Object data) {
         return new ResultEntity(CODE_SUCCESS,msg,data);
@@ -54,6 +57,10 @@ public class ResultEntity implements Serializable {
 
     public static ResultEntity success(Object data) {
         return new ResultEntity(CODE_SUCCESS,MSG_SUCCESS,data);
+    }
+
+    public static ResultEntity fail() {
+        return new ResultEntity(CODE_FAIL,MSG_FAIL,null);
     }
 
     public static ResultEntity fail(String msg, Object data) {
