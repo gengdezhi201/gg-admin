@@ -1,6 +1,9 @@
 package com.gg.model.security.config;
 
 import com.gg.model.security.filter.JwtAuthenticationTokenFilter;
+import com.gg.model.security.handle.AuthenticationEntryPointImpl;
+import com.gg.model.security.handle.JwtAccessDeniedHandler;
+import com.gg.model.security.handle.JwtAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +35,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
+    @Autowired
+    private AuthenticationEntryPointImpl unauthorizedHandler;
+
+    @Autowired
+    private JwtAuthenticationEntryPoint authenticationErrorHandler;
+
+    @Autowired
+    private JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
     @Bean
     public PasswordEncoder passwordEncoder()
     {
@@ -57,6 +69,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // 禁用 CSRF
                 .csrf().disable()
+                // 认证失败处理类
+                .exceptionHandling()
+//                .authenticationEntryPoint(unauthorizedHandler)
+                .authenticationEntryPoint(authenticationErrorHandler)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+                .and()
                 // 防止iframe 造成跨域
                 .headers()
                 .frameOptions()

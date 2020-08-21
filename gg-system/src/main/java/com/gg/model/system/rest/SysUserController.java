@@ -2,7 +2,6 @@ package com.gg.model.system.rest;
 
 import com.gg.domain.ResultEntity;
 import com.gg.model.security.domain.JwtProperties;
-import com.gg.model.security.domain.SysUserDetails;
 import com.gg.model.system.domain.SysUser;
 import com.gg.model.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,6 @@
 package com.gg.model.security.filter;
 
 import com.gg.model.security.util.JwtUtil;
-import com.gg.util.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

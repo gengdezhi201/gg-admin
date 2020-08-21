@@ -1,7 +1,7 @@
 package com.gg;
 
 import com.gg.model.system.domain.SysMenu;
-import com.gg.util.RedisUtil;
+import com.gg.util.RedisUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class GGApplicationTest {
 
     @Autowired
-    RedisUtil redisUtil;
+    RedisUtils redisUtil;
 
     @Test()
     void test01() {

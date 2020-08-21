@@ -4,8 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import com.gg.model.security.domain.JwtProperties;
 import com.gg.model.security.domain.SysUserDetails;
 import com.gg.model.system.domain.SysUser;
-import com.gg.util.RedisCache;
-import com.gg.util.RedisUtil;
+import com.gg.util.RedisUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -17,13 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Component
@@ -33,7 +30,7 @@ public class JwtUtil implements InitializingBean {
     JwtProperties jwtProperties;
 
     @Autowired
-    RedisUtil redisUtil;
+    RedisUtils redisUtil;
 
     private Key key;
 
@@ -66,7 +63,7 @@ public class JwtUtil implements InitializingBean {
      * @param token
      * @return SysUserDetails
      */
-    public boolean setLoginUser(String token,SysUserDetails sysUserDetails) {
+    public boolean setLoginUser(String token, SysUserDetails sysUserDetails) {
         SysUser user = new SysUser();
         user.setUserId(sysUserDetails.getUser().getUserId());
         user.setUserName(sysUserDetails.getUsername());
@@ -89,6 +86,7 @@ public class JwtUtil implements InitializingBean {
         claims.put("userId", sysUserDetails.getUser().getUserId());
         claims.put("nickName", sysUserDetails.getUser().getNickName());
         claims.put("userName", sysUserDetails.getUsername());
+        claims.put("permission", sysUserDetails.getPermissions());
 
         /**
          *iss:              |   签发者      |   setIssuer()
@@ -147,18 +145,18 @@ public class JwtUtil implements InitializingBean {
          * 如userId userName 权限等
          * 用这些信息返回用户实体
          */
-        List<GrantedAuthority> authorities;
-        Set<String> set = new HashSet<>();
-        set.add("ROLE_ADMIN");
-        authorities = AuthorityUtils.createAuthorityList(set.toArray(new String[0]));
-        //TODO 还没设计角色权限等信息 暂时写死角色
-//        SysUserDetails principal = new SysUserDetails(Integer.parseInt(claims.get("userId").toString()), claims.get("nickName").toString(), claims.get("userName").toString(), "", authorities);
+
+
         SysUser user = new SysUser();
+        Set<String> permission = new HashSet<>();
         user.setNickName(claims.get("nickName").toString());
         user.setUserId(Integer.parseInt(claims.get("userId").toString()));
         user.setUserName(claims.get("userName").toString());
-        SysUserDetails principal = new SysUserDetails(user,authorities);
-        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+        if(claims.get("permission")!=null){
+            permission = new HashSet<>((List<String>) claims.get("permission")) ;
+        }
+        SysUserDetails principal = new SysUserDetails(user,permission);
+        return new UsernamePasswordAuthenticationToken(principal, token);
     }
 
 }

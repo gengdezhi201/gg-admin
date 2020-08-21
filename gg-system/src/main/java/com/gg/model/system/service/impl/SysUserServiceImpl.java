@@ -9,7 +9,7 @@ import com.gg.model.system.domain.SysLogin;
 import com.gg.model.system.domain.SysUser;
 import com.gg.model.system.mapper.SysUserMapper;
 import com.gg.model.system.service.ISysUserService;
-import com.gg.util.RedisUtil;
+import com.gg.util.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -31,7 +31,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private RedisUtil redisUtil;
+    private RedisUtils redisUtil;
 
     @Autowired
     private JwtUtil jwtUtil;

@@ -2,6 +2,7 @@ package com.gg.model.security.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.gg.model.security.domain.SysUserDetails;
+import com.gg.model.security.domain.SysUserDetailsbf2;
 import com.gg.model.system.domain.SysUser;
 import com.gg.model.system.mapper.SysMenuMapper;
 import com.gg.model.system.mapper.SysUserMapper;
@@ -26,9 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public SysUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUser sysUser = sysUserMapper.selectOne(new QueryWrapper<SysUser>().eq("user_name",username));
-        List<GrantedAuthority> authorities;
-        Set<String> set = sysMenuMapper.getPermissionByUserId(sysUser.getUserId());
-        authorities=AuthorityUtils.createAuthorityList(set.toArray(new String[0]));
-        return new SysUserDetails(sysUser,authorities);
+        Set<String> permission = sysMenuMapper.getPermissionByUserId(sysUser.getUserId());
+        return new SysUserDetails(sysUser,permission);
     }
 }

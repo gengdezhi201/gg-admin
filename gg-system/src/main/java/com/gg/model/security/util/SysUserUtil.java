@@ -1,6 +1,7 @@
 package com.gg.model.security.util;
 
 import com.gg.model.security.domain.SysUserDetails;
+import com.gg.model.security.domain.SysUserDetailsbf2;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
