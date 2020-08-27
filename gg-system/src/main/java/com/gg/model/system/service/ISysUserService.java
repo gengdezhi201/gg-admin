@@ -5,6 +5,8 @@ import com.gg.domain.ResultEntity;
 import com.gg.model.system.domain.SysLogin;
 import com.gg.model.system.domain.SysUser;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * <p>
  *  服务类
@@ -14,5 +16,8 @@ import com.gg.model.system.domain.SysUser;
  * @since 2020-06-19
  */
 public interface ISysUserService extends IService<SysUser> {
+
     ResultEntity login(SysLogin sysLogin);
+
+    ResultEntity getUserInfo(HttpServletRequest request);
 }

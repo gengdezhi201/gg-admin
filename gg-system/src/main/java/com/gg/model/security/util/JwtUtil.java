@@ -1,6 +1,8 @@
 package com.gg.model.security.util;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ObjectUtil;
+import com.alibaba.fastjson.JSONArray;
 import com.gg.model.security.domain.JwtProperties;
 import com.gg.model.security.domain.SysUserDetails;
 import com.gg.model.system.domain.SysUser;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,10 +51,10 @@ public class JwtUtil implements InitializingBean {
      * @param token
      * @return SysUserDetails
      */
-    public SysUser getLoginUser(String token) {
+    public SysUserDetails getLoginUser(String token) {
         Object obj = redisUtil.get(jwtProperties.getOnlineKey()+":"+token);
         if (obj != null) {
-            return (SysUser) obj;
+            return (SysUserDetails) obj;
         } else {
             return null;
         }
@@ -64,11 +67,11 @@ public class JwtUtil implements InitializingBean {
      * @return SysUserDetails
      */
     public boolean setLoginUser(String token, SysUserDetails sysUserDetails) {
-        SysUser user = new SysUser();
-        user.setUserId(sysUserDetails.getUser().getUserId());
-        user.setUserName(sysUserDetails.getUsername());
-        user.setPassword(sysUserDetails.getPassword());
-        return redisUtil.set(jwtProperties.getOnlineKey()+":"+ token,user,jwtProperties.getTokenValidityInSeconds());
+//        SysUser user = new SysUser();
+//        user.setUserId(sysUserDetails.getUser().getUserId());
+//        user.setUserName(sysUserDetails.getUsername());
+//        user.setPassword(sysUserDetails.getPassword());
+        return redisUtil.set(jwtProperties.getOnlineKey()+":"+ token,sysUserDetails,jwtProperties.getTokenValidityInSeconds());
     }
 
     /**
@@ -79,9 +82,6 @@ public class JwtUtil implements InitializingBean {
      */
     public String createToken(Authentication authentication) {
         Map<String, Object> claims = new HashMap<>();
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
         SysUserDetails sysUserDetails = (SysUserDetails) authentication.getPrincipal();
         claims.put("userId", sysUserDetails.getUser().getUserId());
         claims.put("nickName", sysUserDetails.getUser().getNickName());
@@ -146,7 +146,6 @@ public class JwtUtil implements InitializingBean {
          * 用这些信息返回用户实体
          */
 
-
         SysUser user = new SysUser();
         Set<String> permission = new HashSet<>();
         user.setNickName(claims.get("nickName").toString());
@@ -155,8 +154,12 @@ public class JwtUtil implements InitializingBean {
         if(claims.get("permission")!=null){
             permission = new HashSet<>((List<String>) claims.get("permission")) ;
         }
+        Collection<? extends GrantedAuthority> authorities =
+                permission.stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
         SysUserDetails principal = new SysUserDetails(user,permission);
-        return new UsernamePasswordAuthenticationToken(principal, token);
+        return new UsernamePasswordAuthenticationToken(principal, token,authorities);
     }
 
 }

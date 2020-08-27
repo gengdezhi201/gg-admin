@@ -18,6 +18,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  *  服务实现类
@@ -53,5 +55,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String token = jwtUtil.createToken(authentication);
         jwtUtil.setLoginUser(token,sysUserDetails);
         return ResultEntity.success("登录成功",token);
+    }
+
+    @Override
+    public ResultEntity getUserInfo(HttpServletRequest request) {
+        return ResultEntity.success(jwtUtil.getLoginUser(jwtUtil.getToken(request)));
     }
 }
