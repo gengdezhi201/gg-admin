@@ -51,10 +51,6 @@ public class ResultEntity implements Serializable {
         return new ResultEntity(CODE_SUCCESS,msg,data);
     }
 
-    public static ResultEntity success(String code, String msg) {
-        return new ResultEntity(code,msg,null);
-    }
-
     public static ResultEntity success(String msg) {
         return new ResultEntity(CODE_SUCCESS,msg,null);
     }
@@ -69,10 +65,6 @@ public class ResultEntity implements Serializable {
 
     public static ResultEntity fail(String msg, Object data) {
         return new ResultEntity(CODE_FAIL,msg,data);
-    }
-
-    public static ResultEntity fail(String code, String msg) {
-        return new ResultEntity(code,msg,null);
     }
 
     public static ResultEntity fail(String msg) {
