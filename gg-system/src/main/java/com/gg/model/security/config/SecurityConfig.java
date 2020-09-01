@@ -71,7 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-
+//                .logout()
+//                .logoutUrl("/logout").and()
                 // 禁用 CSRF
                 .csrf().disable()
                 // 认证失败处理类
@@ -110,7 +111,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/avatar/**").permitAll()
                 .antMatchers("/file/**").permitAll()
 //                .antMatchers("/demo").permitAll()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/auth/**").permitAll()
                 // 阿里巴巴 druid
                 .antMatchers("/druid/**").permitAll()
                 // 放行OPTIONS请求

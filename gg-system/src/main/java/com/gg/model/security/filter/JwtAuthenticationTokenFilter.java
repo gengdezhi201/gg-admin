@@ -35,7 +35,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter{
         {
             //解析token将返回的Authentication 储存在SecurityContextHolder上下文中
             if(jwtUtil.getLoginUser(token) != null){
-                SecurityContextHolder.getContext().setAuthentication(jwtUtil.getAuthentication(token));
+                Authentication authentication = jwtUtil.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
         chain.doFilter(request, response);

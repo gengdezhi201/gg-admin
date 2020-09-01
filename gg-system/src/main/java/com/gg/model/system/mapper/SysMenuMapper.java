@@ -18,4 +18,5 @@ import java.util.Set;
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
     Set<String> getPermissionByUserId(Integer userId);
+
 }

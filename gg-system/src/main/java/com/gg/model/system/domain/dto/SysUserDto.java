@@ -1,9 +1,7 @@
-package com.gg.model.system.domain;
+package com.gg.model.system.domain.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.gg.domain.BaseEntity;
+import com.gg.domain.BaseDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,13 +15,12 @@ import java.util.Date;
  */
 @Getter
 @Setter
-//@ToString(callSuper = true)
-public class SysUser extends BaseEntity implements Serializable {
+
+public class SysUserDto extends BaseDto implements Serializable {
 
     /**
      * 用户ID
      */
-    @TableId(value = "user_id",type = IdType.AUTO)
     private Integer userId;
 
     /**
@@ -34,21 +31,16 @@ public class SysUser extends BaseEntity implements Serializable {
     /**
      * 用户名
      */
-//    @NotBlank(message = "用户名不能为空")
-//    @Size(min = 0, max = 50, message = "用户名不能超过50个字符")
     private String userName;
 
     /**
      * 昵称
      */
-//    @NotBlank(message = "昵称不能为空")
-//    @Size(min = 0, max = 50, message = "昵称不能超过50个字符")
     private String nickName;
 
     /**
      * 密码
      */
-//    @NotBlank(message = "密码不能为空")
     private String password;
 
     /**
@@ -70,7 +62,7 @@ public class SysUser extends BaseEntity implements Serializable {
     /**
      * 性别:1男,2女
      */
-    private Long gender;
+    private char gender;
 
     /**
      * 手机
@@ -86,7 +78,7 @@ public class SysUser extends BaseEntity implements Serializable {
     /**
      * 状态:1启用，2停用
      */
-    private Long status;
+    private String status;
 
     @Override
     public String toString() {
@@ -102,7 +94,6 @@ public class SysUser extends BaseEntity implements Serializable {
                 ", gender=" + gender +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", status='" + status + '\'' +
                 ", createUserName='" + super.getCreateUserName() + '\'' +
                 ", createTime='" + super.getCreateTime() + '\'' +
                 ", updateUserName='" + super.getUpdateUserName() + '\'' +

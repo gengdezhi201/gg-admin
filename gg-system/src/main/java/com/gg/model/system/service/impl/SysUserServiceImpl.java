@@ -1,12 +1,15 @@
 package com.gg.model.system.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gg.domain.ResultEntity;
 import com.gg.model.security.domain.SysUserDetails;
 import com.gg.model.security.util.JwtUtil;
 import com.gg.model.system.domain.SysLogin;
 import com.gg.model.system.domain.SysUser;
+import com.gg.model.system.domain.dto.query.SysUserQueryCriteria;
 import com.gg.model.system.mapper.SysUserMapper;
 import com.gg.model.system.service.ISysUserService;
 import com.gg.util.RedisUtils;
@@ -30,35 +33,16 @@ import javax.servlet.http.HttpServletRequest;
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private RedisUtils redisUtil;
-
-    @Autowired
-    private JwtUtil jwtUtil;
-
-    public ResultEntity login(SysLogin sysLogin) {
-        Authentication authentication = null;
-        try {
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(sysLogin.getUsername(),sysLogin.getPassword());
-            authentication = this.authenticationManager.authenticate(authenticationToken);
-        } catch (Exception e) {
-            if (e instanceof BadCredentialsException){
-                return ResultEntity.fail(e.getMessage());
-            }else{
-                e.printStackTrace();
-            }
-        }
-        SysUserDetails sysUserDetails = (SysUserDetails)authentication.getPrincipal();
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtUtil.createToken(authentication);
-        jwtUtil.setLoginUser(token,sysUserDetails);
-        return ResultEntity.success("登录成功",token);
-    }
+    private SysUserMapper sysUserMapper;
 
     @Override
-    public ResultEntity getUserInfo(HttpServletRequest request) {
-        return ResultEntity.success(jwtUtil.getLoginUser(jwtUtil.getToken(request)));
+    public Page getSysUserListPage(SysUserQueryCriteria sysUserQueryCriteria) {
+        QueryWrapper<SysUser> wrapper = new QueryWrapper();
+        wrapper
+                .like(sysUserQueryCriteria.getUsername()!=null,"username",sysUserQueryCriteria.getUsername())
+                .like(sysUserQueryCriteria.getUsername()!=null,"nickname",sysUserQueryCriteria.getUsername())
+                .eq(sysUserQueryCriteria.getDeptId()!=null,"dept_id",sysUserQueryCriteria.getDeptId())
+                .eq(sysUserQueryCriteria.getStatus()!=null,"status",sysUserQueryCriteria.getStatus());
+        return sysUserMapper.selectPage(new Page(sysUserQueryCriteria.getPageNum(),sysUserQueryCriteria.getPageSize()),wrapper);
     }
 }

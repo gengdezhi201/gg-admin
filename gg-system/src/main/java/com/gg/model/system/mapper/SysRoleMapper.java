@@ -12,5 +12,4 @@ import com.gg.model.system.domain.SysRole;
  * @since 2020-07-27
  */
 public interface SysRoleMapper extends BaseMapper<SysRole> {
-
 }

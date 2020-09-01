@@ -64,14 +64,19 @@ public class JwtUtil implements InitializingBean {
      * 储存用户信息
      *
      * @param token
-     * @return SysUserDetails
+     * @return 保存成功失败
      */
     public boolean setLoginUser(String token, SysUserDetails sysUserDetails) {
-//        SysUser user = new SysUser();
-//        user.setUserId(sysUserDetails.getUser().getUserId());
-//        user.setUserName(sysUserDetails.getUsername());
-//        user.setPassword(sysUserDetails.getPassword());
         return redisUtil.set(jwtProperties.getOnlineKey()+":"+ token,sysUserDetails,jwtProperties.getTokenValidityInSeconds());
+    }
+
+    /**
+     * 删除用户信息
+     *
+     * @param request
+     */
+    public void delLoginUser(HttpServletRequest request) {
+        redisUtil.del(jwtProperties.getOnlineKey()+":"+ getToken(request));
     }
 
     /**

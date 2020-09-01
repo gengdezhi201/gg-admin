@@ -10,6 +10,6 @@
 	        LEFT JOIN sys_roles_menus r ON m.menu_id = r.menu_id
 	        LEFT JOIN sys_users_roles u ON r.role_id = u.role_id
         WHERE
-	        u.user_id = #{userId,jdbcType=INTEGER} AND m.permission IS NOT NULL
+	        u.user_id = #{userId,jdbcType=INTEGER} AND m.permission IS NOT NULL AND m.permission != ''
     </select>
 </mapper>

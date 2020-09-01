@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="891ba64a-db98-4d89-b587-ccd9500e570f" name="baidu" url="http://106.12.61.188:8098">
+        <fileTransfer accessType="SFTP" host="106.12.61.188" port="4421" sshConfigId="dea01450-fba1-4525-a3bc-625c92bdf24f" sshConfig="root@106.12.61.188:4421 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
