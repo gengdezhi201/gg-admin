@@ -47,11 +47,11 @@ spring:
             multi-statement-allow: true
   redis:
     # 地址
-    host: 121.4.12.89
+    host: 192.168.27.79
     # 端口，默认为6379
-    port: 6679
+    port: 32113
     # 密码
-    password: Aa~123!@#
+    password: testing
     # 连接超时时间
     timeout: 10s
     lettuce:
