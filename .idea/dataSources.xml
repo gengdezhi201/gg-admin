@@ -7,5 +7,12 @@
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://106.12.61.188:3306/ggadmin</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="121.4.12.89" uuid="c8d9d692-a03f-450c-8549-238a73b22b01">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <remarks>121.4.12.89</remarks>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://121.4.12.89:44306/ggadmin</jdbc-url>
+    </data-source>
   </component>
 </project>

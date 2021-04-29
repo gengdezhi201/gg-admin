@@ -2,6 +2,8 @@ package com.gg.model.security.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gg.model.system.domain.SysUser;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,6 +15,8 @@ import java.util.Set;
  * 
  * @author ruoyi
  */
+@Getter
+@Setter
 public class SysUserDetails implements UserDetails
 {
     private static final long serialVersionUID = 1L;

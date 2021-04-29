@@ -54,6 +54,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- SpringBoot 配置注释处理器 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!-- SpringBoot-Security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

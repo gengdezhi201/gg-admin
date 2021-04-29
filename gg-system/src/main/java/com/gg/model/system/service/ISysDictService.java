@@ -1,8 +1,10 @@
 package com.gg.model.system.service;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.gg.model.system.domain.SysDict;
+import com.gg.model.system.domain.dto.query.SysDictQueryCriteria;
 
 /**
  * <p>
@@ -14,4 +16,5 @@ import com.gg.model.system.domain.SysDict;
  */
 public interface ISysDictService extends IService<SysDict> {
 
+    Page getSysDictListPage(SysDictQueryCriteria sysDictQueryCriteria);
 }

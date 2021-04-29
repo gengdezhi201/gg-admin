@@ -3,7 +3,7 @@ package com.gg.model.system.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.gg.model.system.domain.SysRole;
-import com.gg.model.system.domain.dto.query.SysUserQueryCriteria;
+import com.gg.model.system.domain.dto.query.SysRoleQueryCriteria;
 
 /**
  * <p>
@@ -15,6 +15,6 @@ import com.gg.model.system.domain.dto.query.SysUserQueryCriteria;
  */
 public interface ISysRoleService extends IService<SysRole> {
 
-    Page getSysRoleListPage(SysUserQueryCriteria sysUserQueryCriteria);
+    Page getSysRoleListPage(SysRoleQueryCriteria sysRoleQueryCriteria);
 
 }

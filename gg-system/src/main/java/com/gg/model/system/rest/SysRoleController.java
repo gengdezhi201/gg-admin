@@ -5,7 +5,7 @@ import com.gg.domain.ResultEntity;
 import com.gg.model.security.util.SysUserUtil;
 import com.gg.model.system.domain.SysRole;
 import com.gg.model.system.domain.SysUser;
-import com.gg.model.system.domain.dto.query.SysUserQueryCriteria;
+import com.gg.model.system.domain.dto.query.SysRoleQueryCriteria;
 import com.gg.model.system.service.ISysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,13 +30,13 @@ public class SysRoleController{
 
     /**
      * 获取角色列表 分页
-     * @param sysUserQueryCriteria
+     * @param sysRoleQueryCriteria
      * @return
      */
     @GetMapping
     @PreAuthorize("@gg.check('system:role:list')")
-    public ResultEntity page(SysUserQueryCriteria sysUserQueryCriteria){
-        return ResultEntity.success(sysRoleService.list());
+    public ResultEntity page(SysRoleQueryCriteria sysRoleQueryCriteria){
+        return ResultEntity.success(sysRoleService.getSysRoleListPage(sysRoleQueryCriteria));
     }
 
     /**
